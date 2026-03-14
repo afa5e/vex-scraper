@@ -13,6 +13,7 @@ def init_db(db_path="vex_scraper.db"):
             depth INTEGER DEFAULT 0,
             retry_count INTEGER DEFAULT 0,
             backoff_until TIMESTAMP,
+            last_error TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
