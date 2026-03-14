@@ -9,9 +9,10 @@ def init_db(db_path="vex_scraper.db"):
         CREATE TABLE IF NOT EXISTS crawl_queue (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             url TEXT UNIQUE NOT NULL,
-            state TEXT NOT NULL DEFAULT 'queued', -- queued, fetching, completed, failed, skipped
+            status TEXT NOT NULL DEFAULT 'queued' CHECK (status IN ('queued', 'fetching', 'completed', 'failed', 'skipped')),
+            depth INTEGER DEFAULT 0,
+            retry_count INTEGER DEFAULT 0,
             backoff_until TIMESTAMP,
-            retries INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
@@ -25,7 +26,7 @@ def init_db(db_path="vex_scraper.db"):
             title TEXT,
             content TEXT,
             metadata TEXT,
-            crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
     
